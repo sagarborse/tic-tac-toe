@@ -149,48 +149,63 @@ function comp(compValue) {
 
 function gameStatus(){
     winner = 0
-    console.log(grid)
-    for (i =1; i < 3; i ++){
+    row = 0
+    column = 0
+    diagonal = 0
+    diagonal2 = 0
+    //console.log(grid)
+    for (i =1; i < radio_value+1; i++){
 
-        if (grid[0][0] == i && grid[0][1] == i && grid[0][2] == i){
-            winner = i;
-            break;
-        }
-        if (grid[1][0] == i && grid[1][1] == i && grid[1][2] == i){
-            winner = i;
-            break;
-        }
-        if (grid[2][0] == i && grid[2][1] == i && grid[2][2] == i){
-            winner = i;
-            break;
+        //opposite diagnoal
+    // row crossed
+        for (k=0; k<GRID_LENGTH; k++){
+            row = 0
+            for (j=0; j< GRID_LENGTH; j++){
+                if (k == j && grid[k][j] == i){
+                    diagonal = diagonal  + i
+                    if (diagonal == GRID_LENGTH*i){
+                        winner = i;
+                        break;
+                    }
+                }
+
+                if(k +j == GRID_LENGTH - 1 && grid[k][j] == i){
+                    diagonal2 = diagonal2  + i
+                    if (diagonal2 == GRID_LENGTH*i){
+                        winner = i;
+                        break;
+                    }
+                }
+
+                if (grid[k][j] == i){
+                    row = row + 1
+                    if (row == GRID_LENGTH){
+                        winner = i;
+                        break;
+                    }
+                }
+            }
+
         }
 
+    // column crossed
 
-        if (grid[0][0] == i && grid[1][0] == i && grid[2][0] == i){
-            winner = i;
-            break;
-        }
-        if (grid[0][1] == i && grid[1][1] == i && grid[2][1] == i){
-            winner = i;
-            break;
-        }
-        if (grid[0][2] == i && grid[1][2] == i && grid[2][2] == i){
-            winner = i;
-            break;
-        }
-
-        if (grid[0][0] == i && grid[1][1] == i && grid[2][2] == i){
-            winner = i;
-            break;
-        }
-        if (grid[0][2] == i && grid[1][1] == i && grid[2][0] == i){
-            winner = i;
-            break;
+        for (k=0; k<GRID_LENGTH; k++){
+            column = 0
+            for (j=0; j< GRID_LENGTH; j++){
+                if (grid[j][k] == i){
+                    column = column + 1
+                    if (column == GRID_LENGTH){
+                        winner = i;
+                        break;
+                    }
+                }
+            }
         }
     }
 
     if (winner !=0 ){
-        if (i == radio_value){
+        if (winner == radio_value){
             alert("Player one Win's");
             initializeGrid();
             renderMainGrid();
